@@ -66,10 +66,18 @@ $(document).ready(function () {
           type: "POST",
           data: $("#add-user").serialize() + "&action=insert",
           success: function (res) {
-            console.log(res);
+            // console.log(res);
+            // show the success alert
+            $("#success-alert").removeClass("d-none");
+            // clear the inputs
+            $("input").val("");
+            // redirect to the index page after 2.5 secs
+            setTimeout(() => {
+              window.location.href = "../index.php";
+            }, 2500);
           },
           error: function (err) {
-            console.log(err);
+            console.error(err);
           },
         });
       },

@@ -14,7 +14,7 @@ function displayUsers()
         if ($newDataBase->totalRowCount() != 0) {
             foreach ($usersData as $tableRows) {
                 $output =
-                '<tr class="text-center text-mute">
+                    '<tr class="text-center text-mute">
                     <td>' . $tableRows['id'] . '</td>
                     <td>' . $tableRows['first_name'] . '</td>
                     <td>' . $tableRows['last_name'] . '</td>
@@ -43,5 +43,21 @@ function displayUsers()
 // any echo command is simply the responce that the ajax is receiving
 displayUsers();
 
+
+// add records to the database
+function addUsers()
+{
+    global $newDataBase;
+    if (isset($_POST['action']) && $_POST['action'] == 'insert') {
+        $fname = trim($_POST['fName']);
+        $lname = trim($_POST['lName']);
+        $email = $_POST['email'];
+        $phone = trim($_POST['phone']);
+        $newDataBase->insert($fname, $lname, $email, $phone);
+        // print_r([$fname, $lname, $email, $phone]);
+    };
+    return true;
+}
+addUsers();
 // in case of an error or opening the file
 // return 404
