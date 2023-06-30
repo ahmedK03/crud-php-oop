@@ -3,13 +3,15 @@ $(document).ready(function () {
     $.ajax({
       url: " http://localhost/crud-php-oop/controllers/controllers.php",
       // type is post bec he's sending a data string named view
-      type: "POST",
+      // get command is faster, but the url is as follows
+      // controllers.php?action=view
+      type: "GET",
       dataType: "html",
       data: {
         action: "view",
       },
       success: function (res) {
-        // console.log(res);
+        console.log(res);
         $("#tableBody").html(res);
         $("#usersDataTable").dataTable();
       },

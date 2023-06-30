@@ -8,7 +8,7 @@ function displayUsers()
     global $newDataBase;
     $output = '';
     // grap the request sent by ajax
-    if (isset($_POST['action']) && $_POST['action'] == 'view') {
+    if (isset($_GET['action']) && $_GET['action'] == 'view') {
         $usersData = $newDataBase->read();
         // check if there are any records at the database
         if ($newDataBase->totalRowCount() != 0) {
