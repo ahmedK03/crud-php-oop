@@ -75,5 +75,5 @@ class dbOperations
     }
 };
 
-$app = new dbOperations($connection);
+// $app = new dbOperations($connection);
 

@@ -1,17 +1,23 @@
 $(document).ready(function () {
-  $("#usersDataTable").dataTable();
-
   function showAllUsers() {
     $.ajax({
-      url: "crud-php-oop/controllers/controllers.php",
+      url: " http://localhost/crud-php-oop/controllers/controllers.php",
       // type is post bec he's sending a data string named view
-      typr: "POST",
-      data: { action: "view" },
+      type: "POST",
+      dataType: "html",
+      data: {
+        action: "view",
+      },
       success: function (res) {
-        console.log(res);
+        // console.log(res);
+        $("#tableBody").html(res);
+        $("#usersDataTable").dataTable();
       },
     });
   }
 
   showAllUsers();
+
+  // adding users data to the data base
+  // create manual checks using jquery
 });

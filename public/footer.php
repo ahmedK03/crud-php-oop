@@ -11,29 +11,7 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <!-- custom script -->
-<!-- <script src="./public/js/main.js"></script> -->
-<script>
-    $(document).ready(function() {
-        $("#usersDataTable").dataTable();
-
-        function showAllUsers() {
-            $.ajax({
-                url: "./controllers/controllers.php",
-                // type is post bec he's sending a data string named view
-                type: "POST",
-                dataType: 'text',
-                data: {
-                    action: "view",
-                },
-                success: function(res) {
-                    console.log(res);
-                },
-            });
-        }
-
-        showAllUsers();
-    });
-</script>
+<script src=" http://localhost/crud-php-oop/public/js/main.js"></script>
 </body>
 
 </html>
