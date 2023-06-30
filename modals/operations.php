@@ -38,7 +38,7 @@ class dbOperations
 
     public function getUserById($id)
     {
-        $query = "SELECT * FROM users WHERE id = :id";
+        $query = "SELECT * FROM users WHERE id = :id LIMIT 1";
         $stmt = $this->dbConnect->prepare($query);
         $stmt->execute(['id' => $id]);
         // store the results in a result variable
@@ -49,7 +49,7 @@ class dbOperations
 
     public function update($id, $fName, $lName, $email, $phone)
     {
-        $query = "UPDATE users SET first_name = :fName, last_name = :lName, email = :email, phone_number = :phone WHERE id = : id";
+        $query = "UPDATE users SET first_name = :fName, last_name = :lName, email = :email, phone_number = :phone WHERE id = : id LIMIT 1";
         $stmt = $this->dbConnect->prepare($query);
         $stmt->execute(['id' => $id, 'fName' => $fName, 'lName' => $lName, 'email' => $email, 'phone' => $phone]);
 
@@ -58,7 +58,7 @@ class dbOperations
 
     public function delete($id)
     {
-        $query = "DELETE FROM users WHERE id = :id";
+        $query = "DELETE FROM users WHERE id = :id LIMIT 1";
         $stmt = $this->dbConnect->prepare($query);
         $stmt->execute(['id' => $id]);
         return true;

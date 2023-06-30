@@ -27,7 +27,7 @@ $title = 'PHP Crud';
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-
+                    <!-- list all the users -->
                 </tbody>
             </table>
         </div>
