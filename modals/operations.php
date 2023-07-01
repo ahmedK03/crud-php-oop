@@ -6,6 +6,7 @@ $connection = $db->connection;
 class dbOperations
 {
     private $dbConnect;
+    // public constructor to be able to pass connection to it from another file
     public function __construct($connection)
     {
         $this->dbConnect = $connection;
@@ -49,7 +50,7 @@ class dbOperations
 
     public function update($id, $fName, $lName, $email, $phone)
     {
-        $query = "UPDATE users SET first_name = :fName, last_name = :lName, email = :email, phone_number = :phone WHERE id = : id LIMIT 1";
+        $query = "UPDATE users SET first_name = :fName, last_name = :lName, email = :email, phone_number = :phone WHERE id = :id LIMIT 1";
         $stmt = $this->dbConnect->prepare($query);
         $stmt->execute(['id' => $id, 'fName' => $fName, 'lName' => $lName, 'email' => $email, 'phone' => $phone]);
 
@@ -76,4 +77,3 @@ class dbOperations
 };
 
 // $app = new dbOperations($connection);
-
