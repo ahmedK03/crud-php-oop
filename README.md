@@ -6,7 +6,7 @@ Crud using PHP OOP and mvc pattern
 
 - Bootstrap
 - Data Tables
-- Font Awesome
-- Jquery
-- Sweet Alert
+- Font Awesome Icons
 - MVC Pattern
+- Jquery
+- JQuery Ajax for communicating with the controller and db
