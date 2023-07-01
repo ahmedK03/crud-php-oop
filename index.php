@@ -1,6 +1,6 @@
 <?php
 $title = 'PHP Crud';
-@include('./public/header.php');
+@include('./assets/header.php');
 ?>
 <div class="row">
     <div class="col-md-6">
@@ -77,4 +77,4 @@ $title = 'PHP Crud';
         </div>
     </div>
 </div>
-<?php @include('./public/footer.php'); ?>
+<?php @include('./assets/footer.php'); ?>

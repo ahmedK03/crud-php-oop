@@ -1,6 +1,6 @@
 <?php
 $title = 'Add New User';
-@include('../public/header.php');
+@include('../assets/header.php');
 ?>
 <div class="row">
     <div class="col-lg-5 offset-1">
@@ -35,4 +35,4 @@ $title = 'Add New User';
 </div>
 
 
-<?php @include('../public/footer.php') ?>
+<?php @include('../assets/footer.php') ?>
