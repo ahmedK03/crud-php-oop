@@ -9,4 +9,4 @@ Crud using PHP OOP and mvc pattern
 - Font Awesome Icons
 - MVC Pattern
 - Jquery
-- JQuery Ajax for communicating with the controller and db
+- JQuery Ajax
