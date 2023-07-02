@@ -1,17 +1,19 @@
 <?php
 require_once("../modals/operations.php");
-$operation = new dbOperations(connection: $connection);
+require_once("utils.php");
+$utils = new Utils;
 
-
-class UserController
+/**
+ * configure actions on ajax requests
+ */
+class UserController extends DatabaseOperations
 {
     public function showAllUsers()
     {
-        global $operation;
         $output = '';
-        $usersData = $operation->read();
+        $usersData = DatabaseOperations::read();
         // check if there are any records at the operation
-        if ($operation->totalRowCount() != 0) {
+        if (DatabaseOperations::totalRowCount() > 0) {
             foreach ($usersData as $tableRows) {
                 $output =
                     '<tr class="text-center text-mute">
@@ -21,8 +23,10 @@ class UserController
                     <td>' . $tableRows['email'] . '</td>
                     <td>' . $tableRows['phone_number'] . '</td>
                     <td>
-                        <a href="#" class="text-success me-2 text-decoration-none" title="view details">
-                            <i class="fa-solid fa-circle-info"></i>
+                        <a href="#" class="text-success me-2 text-decoration-none btn-details"
+                        data-bs-toggle="modal" data-bs-target="#viewDetails"
+                        data-id="' . $tableRows['id'] . '" title="view details">
+                            <i class="fa-solid fa-circle-plus"></i>
                         </a>
                         <a href="#" class="text-warning me-2 text-decoration-none btn-edit" data-bs-toggle="modal" data-bs-target="#editModal" title="edit data" data-id="' . $tableRows['id'] . '">
                             <i class="fa-regular fa-pen-to-square"></i>
@@ -41,29 +45,61 @@ class UserController
 
     public function addUser($fname, $lname, $email, $phone)
     {
-        global $operation;
-        $operation->insert($fname, $lname, $email, $phone);
+        DatabaseOperations::insert($fname, $lname, $email, $phone);
         return true;
     }
 
     public function singleUserInfo($id)
     {
-        global $operation;
-        $userDetails = $operation->getUserById($id);
+        $userDetails = DatabaseOperations::getUserById($id);
         return json_encode($userDetails);
     }
 
     public function updateUserInfo($id, $fname, $lname, $email, $phone)
     {
-        global $operation;
-        $operation->update($id, $fname, $lname, $email, $phone);
+        DatabaseOperations::update($id, $fname, $lname, $email, $phone);
         return true;
     }
 
     public function deleteUser($id)
     {
-        global $operation;
-        $operation->delete($id);
+        DatabaseOperations::delete($id);
+        return true;
+    }
+
+    public function exportToExcel()
+    {
+        // define header properties
+        header("Content-Disposition: attachment; filename:users.xls");
+        header("Content-Type: application/vnd.ms-excel;  name='excel'");
+        header("Pargma: no-cache");
+        header("Expires: 0");
+
+        $dataRows = DatabaseOperations::read();
+?>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+            </tr>
+            <?php
+            foreach ($dataRows as $row) {
+            ?>
+                <tr>
+                    <td><?php echo $row['id'] ?></td>
+                    <td><?php echo $row['first_name'] ?></td>
+                    <td><?php echo $row['last_name'] ?></td>
+                    <td><?php echo $row['email'] ?></td>
+                    <td><?php echo $row['phone_number'] ?></td>
+                </tr>
+            <?php
+            }
+            ?>
+        </table>
+<?php
         return true;
     }
 }
@@ -74,32 +110,39 @@ $users = new UserController;
 if (isset($_GET['action'])) {
     $_GET['action'] == 'view' ? $users->showAllUsers() : null;
 }
-if (isset($_GET['editId'])) {
-    $id = $_GET['editId'];
+if (isset($_GET['user_id'])) {
+    $id = $_GET['user_id'];
     echo $users->singleUserInfo($id);
 }
+// export to excel
+if (isset($_GET['export']) && $_GET['export'] == 'excel') {
+    $users->exportToExcel();
+}
+
 if (isset($_POST['action'])) {
+    // to add new user
     if ($_POST['action'] == 'insert') {
-        $fname = trim($_POST['fName']);
-        $lname = trim($_POST['lName']);
-        $email = $_POST['email'];
-        $phone = trim($_POST['phone']);
+        $fname = $utils->sanitizeInputs($_POST['fName']);
+        $lname = $utils->sanitizeInputs($_POST['lName']);
+        $email = $utils->sanitizeInputs($_POST['email']);
+        $phone = $utils->sanitizeInputs($_POST['phone']);
         $users->addUser($fname, $lname, $email, $phone);
     }
+    // to update user
     if ($_POST['action'] == 'update') {
         $id = $_POST['id'];
-        $fname = trim($_POST['fName']);
-        $lname = trim($_POST['lName']);
-        $email = $_POST['email'];
-        $phone = trim($_POST['phone']);
+        $fname = $utils->sanitizeInputs($_POST['fName']);
+        $lname = $utils->sanitizeInputs($_POST['lName']);
+        $email = $utils->sanitizeInputs($_POST['email']);
+        $phone = $utils->sanitizeInputs($_POST['phone']);
         $users->updateUserInfo($id, $fname, $lname, $email, $phone);
     }
+    // to delete user
     if ($_POST['action'] == 'delete') {
         $id = $_POST['id'];
         $users->deleteUser($id);
     }
 }
-
 
 // in case of an error or opening the file
 // return 404

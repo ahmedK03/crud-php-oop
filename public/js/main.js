@@ -12,8 +12,11 @@ function showAllUsers() {
       action: "view",
     },
     success: function (res) {
-      $("#tableBody").html(res);
+      $("#tableBody").append(res);
       $("#usersDataTable").dataTable();
+    },
+    error: function (err) {
+      console.error(err);
     },
   });
 }
@@ -96,7 +99,7 @@ function editUser() {
       type: "GET",
       // adding data type parse your response as JSON before it comes to the "success" function.
       dataType: "json",
-      data: { editId: id },
+      data: { user_id: id },
       success: function (res) {
         // adding form values
         $("#edit-id").val(res.id);
@@ -164,8 +167,8 @@ function editUser() {
             .slideToggle(1500);
           setTimeout(function () {
             $("#editModal").modal("hide");
+            showAllUsers();
           }, 1500);
-          showAllUsers();
         },
         error: function (err) {
           console.error(err);
@@ -214,3 +217,29 @@ function deleteUser() {
   });
 }
 deleteUser();
+
+function displaySingleUser() {
+  $("body").on("click", ".btn-details", function (e) {
+    e.preventDefault();
+    let id = $(this).attr("data-id");
+    $.ajax({
+      url: "http://localhost/crud-php-oop/controllers/controllers.php",
+      type: "GET",
+      dataType: "json",
+      data: {
+        user_id: id,
+      },
+      success: function (res) {
+        $("#userFirstName").append(res.first_name);
+        $("h2.user-full-name").append(res.first_name + " " + res.last_name);
+        $("p.user-email").append(res.email);
+        $("p.user-phone").append(res.phone_number);
+      },
+      error: function (err) {
+        console.error(err);
+      },
+    });
+  });
+}
+
+displaySingleUser();
