@@ -2,12 +2,13 @@
 require_once("../modals/operations.php");
 $operation = new dbOperations(connection: $connection);
 
-function displayUsers()
+
+class UserController
 {
-    global $operation;
-    $output = '';
-    // grap the request sent by ajax
-    if (isset($_GET['action']) && $_GET['action'] == 'view') {
+    public function showAllUsers()
+    {
+        global $operation;
+        $output = '';
         $usersData = $operation->read();
         // check if there are any records at the operation
         if ($operation->totalRowCount() != 0) {
@@ -34,63 +35,71 @@ function displayUsers()
                 </tr>';
                 echo $output;
             }
-        } else {
-            echo '<tr><h3 class="text-center">No Records Found</h3></tr>';
         }
+        return true;
     }
-    return true;
-}
-// any echo command is simply the responce that the ajax is receiving
-displayUsers();
 
-
-// add records to the operation
-function addUsers()
-{
-    global $operation;
-    if (isset($_POST['action']) && $_POST['action'] == 'insert') {
-        $fname = trim($_POST['fName']);
-        $lname = trim($_POST['lName']);
-        $email = $_POST['email'];
-        $phone = trim($_POST['phone']);
+    public function addUser($fname, $lname, $email, $phone)
+    {
+        global $operation;
         $operation->insert($fname, $lname, $email, $phone);
-        // print_r([$fname, $lname, $email, $phone]);
-    };
-    return true;
-}
-addUsers();
-
-
-function updateUser()
-{
-    global $operation;
-    // get solo user info
-    if (isset($_GET['editId'])) {
-        $id = $_GET['editId'];
-        $userDetails = $operation->getUserById($id);
-        echo json_encode($userDetails);
+        return true;
     }
-    // update user info
-    if (isset($_POST['action']) && $_POST['action'] == 'update') {
+
+    public function singleUserInfo($id)
+    {
+        global $operation;
+        $userDetails = $operation->getUserById($id);
+        return json_encode($userDetails);
+    }
+
+    public function updateUserInfo($id, $fname, $lname, $email, $phone)
+    {
+        global $operation;
+        $operation->update($id, $fname, $lname, $email, $phone);
+        return true;
+    }
+
+    public function deleteUser($id)
+    {
+        global $operation;
+        $operation->delete($id);
+        return true;
+    }
+}
+
+$users = new UserController;
+
+// check incoming requests
+if (isset($_GET['action'])) {
+    $_GET['action'] == 'view' ? $users->showAllUsers() : null;
+}
+if (isset($_GET['editId'])) {
+    $id = $_GET['editId'];
+    echo $users->singleUserInfo($id);
+}
+if (isset($_POST['action'])) {
+    if ($_POST['action'] == 'insert') {
+        $fname = trim($_POST['fName']);
+        $lname = trim($_POST['lName']);
+        $email = $_POST['email'];
+        $phone = trim($_POST['phone']);
+        $users->addUser($fname, $lname, $email, $phone);
+    }
+    if ($_POST['action'] == 'update') {
         $id = $_POST['id'];
         $fname = trim($_POST['fName']);
         $lname = trim($_POST['lName']);
         $email = $_POST['email'];
         $phone = trim($_POST['phone']);
-        $operation->update($id, $fname, $lname, $email, $phone);
+        $users->updateUserInfo($id, $fname, $lname, $email, $phone);
     }
-    return true;
-}
-updateUser();
-
-function deleteUser()
-{
-    global $operation;
-    if (isset($_POST['action']) && $_POST['action'] == 'delete') {
+    if ($_POST['action'] == 'delete') {
         $id = $_POST['id'];
-        $operation->delete($id);
+        $users->deleteUser($id);
     }
 }
-deleteUser();
+
+
 // in case of an error or opening the file
 // return 404
