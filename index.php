@@ -8,7 +8,7 @@ $title = 'PHP Crud';
     </div>
     <div class="col-md-6">
         <a href="pages/add-user.php" class="btn btn-primary float-end">Add New User</a>
-        <a href="#" class="btn btn-success float-end me-2">Export To Excel</a>
+        <!-- <a href="#" class="btn btn-success float-end me-2">Export To Excel</a> -->
     </div>
 </div>
 <hr class="mt-3 mb-2">
@@ -99,6 +99,33 @@ $title = 'PHP Crud';
                     <i class="fa-solid fa-circle-check fa-7x text-success"></i>
                     <h4 class="mt-3 fw-semibold">User Deleted Succesfully!</h4>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Details Modal -->
+<div class="modal fade" id="viewDetails" tabindex="-1" aria-labelledby="viewDetailsLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewDetailsLabel">About
+                    <span id="userFirstName" class="text-capitalize"></span>
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="text-left mb-3">
+                    <i class="fa-solid fa-user fa-6x"></i>
+                </div>
+                <h2 class="fs-2 fw-light lh-1 user-full-name text-capitalize">
+
+                </h2>
+                <p class="mt-3 user-email"></p>
+                <p class="user-phone"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary me-auto" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>

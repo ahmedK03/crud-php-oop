@@ -230,10 +230,13 @@ function displaySingleUser() {
         user_id: id,
       },
       success: function (res) {
+        // clear values first
+        $("#userFirstName, h2.user-full-name, p.user-email, p.user-phone").html('');
+        // set the values
         $("#userFirstName").append(res.first_name);
-        $("h2.user-full-name").append(res.first_name + " " + res.last_name);
-        $("p.user-email").append(res.email);
-        $("p.user-phone").append(res.phone_number);
+        $("h2.user-full-name").append("<span class='fs-6 fw-bold'>Full Name</span> " + res.first_name + " " + res.last_name);
+        $("p.user-email").append("<b>Email</b>: " + res.email);
+        $("p.user-phone").append("<b>Phone Number</b>: " + res.phone_number);
       },
       error: function (err) {
         console.error(err);
