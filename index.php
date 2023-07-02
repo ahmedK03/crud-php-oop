@@ -7,7 +7,7 @@ $title = 'PHP Crud';
         <h4 class="text-secondary fw-semibold">Users List</h4>
     </div>
     <div class="col-md-6">
-        <a href="views/add-user.php" class="btn btn-primary float-end">Add New User</a>
+        <a href="pages/add-user.php" class="btn btn-primary float-end">Add New User</a>
         <a href="#" class="btn btn-success float-end me-2">Export To Excel</a>
     </div>
 </div>
@@ -35,7 +35,7 @@ $title = 'PHP Crud';
 </div>
 
 <!--  Edit Modal -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" id="editModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-header">
@@ -74,6 +74,32 @@ $title = 'PHP Crud';
                     <a href="#" type="button" class="btn btn-secondary float-start " data-bs-dismiss="modal">Cancel</a>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body py-4">
+                <div class="delete-alert text-center" style="min-height: 250px;">
+                    <i class="fa-solid fa-circle-exclamation fa-7x text-danger"></i>
+                    <h4 class="mt-3 fw-semibold">Are You Sure?</h4>
+                    <p class="text-secondary mb-2">You won't be able to revert this!</p>
+                    <form action="" id="del-user">
+                        <div class="mt-3">
+                            <input type="hidden" name="delete" id="delete_id">
+                            <button type="submit" name="delete" id="delUser" class="btn btn-outline-danger">Yes, Delete it!</button>
+                            <button type="button" class="btn btn-info ms-2" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="done-alert text-center flex-column justify-content-center" style="min-height: 250px;">
+                    <i class="fa-solid fa-circle-check fa-7x text-success"></i>
+                    <h4 class="mt-3 fw-semibold">User Deleted Succesfully!</h4>
+                </div>
+            </div>
         </div>
     </div>
 </div>

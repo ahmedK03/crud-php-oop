@@ -1,4 +1,4 @@
-$(document).ready(function () {});
+// $(document).ready(function () {});
 
 function showAllUsers() {
   $.ajax({
@@ -164,8 +164,8 @@ function editUser() {
             .slideToggle(1500);
           setTimeout(function () {
             $("#editModal").modal("hide");
-            showAllUsers();
           }, 1500);
+          showAllUsers();
         },
         error: function (err) {
           console.error(err);
@@ -175,3 +175,42 @@ function editUser() {
   });
 }
 editUser();
+
+function deleteUser() {
+  // hide .done-alert div
+  $(".done-alert").fadeOut();
+  // click handler for the delete icon
+  $("body").on("click", ".btn-delete", function (e) {
+    // set the id value
+    let id = $(this).attr("data-id");
+    $("#delete_id").val(id);
+  });
+  // delete form handler
+  $("#del-user").submit(function (e) {
+    e.preventDefault();
+    // get the id value
+    let id = $("input#delete_id").val();
+    $.ajax({
+      url: "http://localhost/crud-php-oop/controllers/controllers.php",
+      type: "POST",
+      dataType: "html",
+      data: {
+        id: id,
+        action: "delete",
+      },
+      success: function (res) {
+        console.log(res);
+        $(".delete-alert").slideUp(10);
+        $(".done-alert").fadeIn(600).addClass("d-flex");
+        setTimeout(function () {
+          $("#deleteModal").modal("hide");
+        }, 1500);
+        showAllUsers();
+      },
+      error: function (err) {
+        console.error(err);
+      },
+    });
+  });
+}
+deleteUser();

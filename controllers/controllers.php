@@ -26,7 +26,7 @@ function displayUsers()
                         <a href="#" class="text-warning me-2 text-decoration-none btn-edit" data-bs-toggle="modal" data-bs-target="#editModal" title="edit data" data-id="' . $tableRows['id'] . '">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </a>
-                        <a href="#" class="text-danger text-decoration-none btn-delete" title="delete user"
+                        <a href="#" class="text-danger text-decoration-none btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" title="delete user"
                         data-id="' . $tableRows['id'] . '">
                             <i class="fa-regular fa-trash-can"></i>
                         </a>
@@ -82,5 +82,15 @@ function updateUser()
     return true;
 }
 updateUser();
+
+function deleteUser()
+{
+    global $operation;
+    if (isset($_POST['action']) && $_POST['action'] == 'delete') {
+        $id = $_POST['id'];
+        $operation->delete($id);
+    }
+}
+deleteUser();
 // in case of an error or opening the file
 // return 404
