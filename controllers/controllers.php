@@ -114,27 +114,24 @@ if (isset($_GET['user_id'])) {
     $id = $_GET['user_id'];
     echo $users->singleUserInfo($id);
 }
-// export to excel
+// export to excel & not working
 if (isset($_GET['export']) && $_GET['export'] == 'excel') {
     $users->exportToExcel();
 }
 
 if (isset($_POST['action'])) {
+    $id = $_POST['id'];
+    $fname = $utils->sanitizeInputs($_POST['fName']);
+    $lname = $utils->sanitizeInputs($_POST['lName']);
+    $email = $utils->sanitizeInputs($_POST['email']);
+    $phone = $utils->sanitizeInputs($_POST['phone']);
     // to add new user
     if ($_POST['action'] == 'insert') {
-        $fname = $utils->sanitizeInputs($_POST['fName']);
-        $lname = $utils->sanitizeInputs($_POST['lName']);
-        $email = $utils->sanitizeInputs($_POST['email']);
-        $phone = $utils->sanitizeInputs($_POST['phone']);
         $users->addUser($fname, $lname, $email, $phone);
     }
     // to update user
     if ($_POST['action'] == 'update') {
-        $id = $_POST['id'];
-        $fname = $utils->sanitizeInputs($_POST['fName']);
-        $lname = $utils->sanitizeInputs($_POST['lName']);
-        $email = $utils->sanitizeInputs($_POST['email']);
-        $phone = $utils->sanitizeInputs($_POST['phone']);
+
         $users->updateUserInfo($id, $fname, $lname, $email, $phone);
     }
     // to delete user
