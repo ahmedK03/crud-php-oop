@@ -131,12 +131,10 @@ if (isset($_POST['action'])) {
     }
     // to update user
     if ($_POST['action'] == 'update') {
-
         $users->updateUserInfo($id, $fname, $lname, $email, $phone);
     }
     // to delete user
     if ($_POST['action'] == 'delete') {
-        $id = $_POST['id'];
         $users->deleteUser($id);
     }
 }
