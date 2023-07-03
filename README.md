@@ -10,3 +10,13 @@ Crud using PHP OOP and mvc pattern
 - MVC Pattern
 - Jquery
 - JQuery Ajax
+
+## Progress:
+- [x] home page
+- [x] add users
+- [x] PDO connection
+- [x] controller
+- [x] db modal
+- [x] sanitizing the inputs
+- [x] ajax requests
+- [ ] export to excel
